@@ -1,0 +1,16 @@
+{
+    "name": "Rails Backend",
+    "dockerComposeFile": ["../docker-compose.yml"],
+    "service": "backend",
+    "workspaceFolder": "/myapp",
+    "extensions": [
+        "rebornix.Ruby",
+        "castwide.solargraph",
+        "misogi.ruby-rubocop",
+        "kaiwood.endwise"
+    ],
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "remoteUser": "root"
+}
