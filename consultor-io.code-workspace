@@ -1,0 +1,40 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.exclude": {
+            "**/node_modules": true,
+            "**/.git": true,
+            "**/.DS_Store": true
+        },
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2,
+        "files.associations": {
+            "*.erb": "erb"
+        },
+        "ruby.useBundler": true,
+        "ruby.useLanguageServer": true,
+        "ruby.lint": {
+            "rubocop": {
+                "useBundler": true
+            }
+        },
+        "[javascript]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[ruby]": {
+            "editor.defaultFormatter": "rebornix.ruby"
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "rebornix.ruby",
+            "dbaeumer.vscode-eslint",
+            "esbenp.prettier-vscode",
+            "ms-azuretools.vscode-docker"
+        ]
+    }
+}
