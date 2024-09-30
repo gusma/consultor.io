@@ -6,11 +6,11 @@
 # Read more: https://github.com/cyu/rack-cors
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins 'http://localhost:3001' # Allow requests from your Next.js frontend
-  
-      resource '*',
-        headers: :any,
-        methods: [:get, :post, :put, :patch, :delete, :options, :head]
-    end
+  allow do
+    origins 'http://localhost:3002'  # Your Next.js app's address
+    resource '*',
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      credentials: true
   end
+end
