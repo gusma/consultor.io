@@ -1,6 +1,7 @@
 // pages/queries/patients.tsx
-import { gql, useQuery } from '@apollo/client';
-import React from 'react';
+import { gql, useQuery } from "@apollo/client";
+import Link from "next/link";
+import React from "react";
 
 const GET_PATIENTS = gql`
   query GetPatients {
@@ -22,7 +23,9 @@ const PatientsPage: React.FC = () => {
     <div>
       <h1>Patients</h1>
       {data.patients.map((patient: { id: string; name: string }) => (
-        <p key={patient.id}>{patient.name}</p>
+        <li key={patient.id}>
+          <Link href={`/patients/${patient.id}`}>{patient.name}</Link>
+        </li>
       ))}
     </div>
   );

@@ -36,5 +36,21 @@ module Types
     def patients
       Patient.all
     end
+
+    field :patient, Types::PatientType, null: true do
+      description "Find a patient by ID or name"
+      argument :id, ID, required: false
+      argument :name, String, required: false
+    end
+
+    def patient(id: nil, name: nil)
+      if id
+        Patient.find_by(id: id)
+      elsif name
+        Patient.find_by(name: name)
+      else
+        nil
+      end
+    end
   end
 end
