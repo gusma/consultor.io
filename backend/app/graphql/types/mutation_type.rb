@@ -1,12 +1,7 @@
-# frozen_string_literal: true
-
+# app/graphql/types/mutation_type.rb
 module Types
   class MutationType < Types::BaseObject
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World"
-    end
+    field :create_patient, mutation: Mutations::CreatePatient
+    # Add other mutations here
   end
 end

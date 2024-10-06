@@ -4,10 +4,11 @@ import { gql, useQuery } from '@apollo/client';
 import Link from 'next/link';
 
 const GET_PATIENT = gql`
-  query GetPatient($id: ID, $name: String) {
-    patient(id: $id, name: $name) {
+  query GetPatient($id: ID!) {
+    patient(id: $id) {
       id
-      name
+      firstName
+      lastName
       email
       address
       city
@@ -23,7 +24,8 @@ const PatientPage: React.FC = () => {
   const { loading, error, data } = useQuery(GET_PATIENT, {
     variables: { 
       id: isNaN(Number(identifier)) ? null : identifier,
-      name: isNaN(Number(identifier)) ? identifier : null
+      firstName: isNaN(Number(identifier)) ? identifier : null,
+      lastName: isNaN(Number(identifier)) ? identifier : null
     },
     skip: !identifier, // Skip the query if identifier is not available yet
   });
@@ -41,7 +43,10 @@ const PatientPage: React.FC = () => {
         <strong>ID:</strong> {patient.id}
       </div>
       <div>
-        <strong>Name:</strong> {patient.name}
+        <strong>First name:</strong> {patient.firstName}
+      </div>
+      <div>
+        <strong>Last name:</strong> {patient.firstName}
       </div>
       <div>
         <strong>Email:</strong> {patient.email}

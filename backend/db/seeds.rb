@@ -2,7 +2,7 @@ puts "Seeding patients from Argentina..."
 
 patients = [
   {
-    name: "Juan Pérez",
+    full_name: "Juan Pérez",
     dni: "28456789",
     phone: "+54 11 4123-4567",
     address: "Av. Corrientes 1234, 5B",
@@ -12,7 +12,7 @@ patients = [
     country: "Argentina"
   },
   {
-    name: "María González",
+    full_name: "María González",
     dni: "30987654",
     phone: "+54 351 567-8901",
     address: "Calle San Martín 567",
@@ -22,7 +22,7 @@ patients = [
     country: "Argentina"
   },
   {
-    name: "Carlos Rodríguez",
+    full_name: "Carlos Rodríguez",
     dni: "25678901",
     phone: "+54 341 234-5678",
     address: "Bv. Oroño 789",
@@ -32,7 +32,7 @@ patients = [
     country: "Argentina"
   },
   {
-    name: "Laura Fernández",
+    full_name: "Laura Fernández",
     dni: "33456789",
     phone: "+54 261 890-1234",
     address: "Av. San Martín 1010",
@@ -42,7 +42,7 @@ patients = [
     country: "Argentina"
   },
   {
-    name: "Martín López",
+    full_name: "Martín López",
     dni: "27890123",
     phone: "+54 381 345-6789",
     address: "Calle 25 de Mayo 222",
@@ -52,7 +52,7 @@ patients = [
     country: "Argentina"
   },
   {
-    name: "Ana Martínez",
+    full_name: "Ana Martínez",
     dni: "31234567",
     phone: "+54 223 678-9012",
     address: "Av. Luro 3456",
@@ -62,7 +62,7 @@ patients = [
     country: "Argentina"
   },
   {
-    name: "Diego Sánchez",
+    full_name: "Diego Sánchez",
     dni: "26789012",
     phone: "+54 387 901-2345",
     address: "Calle Alberdi 789",
@@ -72,7 +72,7 @@ patients = [
     country: "Argentina"
   },
   {
-    name: "Lucía Romero",
+    full_name: "Lucía Romero",
     dni: "32345678",
     phone: "+54 342 456-7890",
     address: "Bv. Pellegrini 1234",
@@ -84,10 +84,21 @@ patients = [
 ]
 
 patients.each do |patient_data|
+  first_name, last_name = patient_data[:full_name].split(" ", 2) # Split the full_name into first and last names
   patient = Patient.find_or_create_by!(dni: patient_data[:dni]) do |p|
-    p.assign_attributes(patient_data)
+    p.assign_attributes(
+      first_name: first_name,
+      last_name: last_name,
+      dni: patient_data[:dni],
+      phone: patient_data[:phone],
+      address: patient_data[:address],
+      email: patient_data[:email],
+      gender: patient_data[:gender],
+      city: patient_data[:city],
+      country: patient_data[:country]
+    )
   end
-  puts "#{patient.persisted? ? 'Found' : 'Created'} patient: #{patient.name} from #{patient.city}"
+  puts "#{patient.persisted? ? 'Found' : 'Created'} patient: #{patient.first_name} #{patient.last_name} from #{patient.city}"
 end
 
 puts "Seed data creation completed!"

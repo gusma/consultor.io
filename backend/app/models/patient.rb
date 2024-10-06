@@ -1,7 +1,8 @@
 class Patient < ApplicationRecord
+    validates :first_name, presence: true
+    validates :last_name, presence: true
     validates :dni, presence: true, uniqueness: true
-    validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-    validates :gender, inclusion: { in: %w(male female other), message: "%{value} is not a valid gender" }
-    
-    # Add any other validations or associations as needed
-  end
+    validates :phone, presence: true
+    validates :address, presence: true
+    validates :email, presence: true
+end

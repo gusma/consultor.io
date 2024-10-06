@@ -40,17 +40,31 @@ module Types
     field :patient, Types::PatientType, null: true do
       description "Find a patient by ID or name"
       argument :id, ID, required: false
-      argument :name, String, required: false
+      argument :first_name, String, required: false
+      argument :last_name, String, required: false
     end
+
+    field :patients_by_last_name_letter, [PatientType], null: false do
+      argument :letter, String, required: true
+      argument :limit, Integer, required: false, default_value: 10
+      argument :offset, Integer, required: false, default_value: 0
+    end
+
 
     def patient(id: nil, name: nil)
       if id
         Patient.find_by(id: id)
-      elsif name
-        Patient.find_by(name: name)
+      elsif first_name
+        Patient.find_by(first_name: first_name)
+      elsif last_name
+        Patient.find_by(last_name: last_name)
       else
         nil
       end
+    end
+
+    def patients_by_last_name_letter(letter:, limit:, offset:)
+      Patient.where("last_name LIKE ?", "#{letter}%").offset(offset).limit(limit)
     end
   end
 end

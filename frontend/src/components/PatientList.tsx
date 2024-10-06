@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 
 interface Patient {
   id: number;
-  name: string;
+  firstName: string;
+  lastName: string
   // Add other patient properties as needed
 }
 
@@ -49,7 +50,7 @@ const PatientList: React.FunctionComponent<{}> = () => {
       {patients.length > 0 ? (
         <ul>
           {patients.map((patient) => (
-            <li key={patient.id}>{patient.name}</li>
+            <li key={patient.id}>Hola</li>
           ))}
         </ul>
       ) : (

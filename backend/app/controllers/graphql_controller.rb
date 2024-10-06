@@ -1,11 +1,9 @@
-# frozen_string_literal: true
-
 class GraphqlController < ApplicationController
-  # If accessing from outside this domain, nullify the session
-  # This allows for outside API access while preventing CSRF attacks,
-  # but you'll have to authenticate your user separately
-  # protect_from_forgery with: :null_session
+  # Skip CSRF token verification for GraphQL requests
   skip_before_action :verify_authenticity_token
+
+  # Add CORS headers
+  before_action :set_cors_headers
 
   def execute
     variables = prepare_variables(params[:variables])
@@ -16,6 +14,10 @@ class GraphqlController < ApplicationController
       # current_user: current_user,
     }
     result = BackendSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    
+    # Log the result for debugging
+    Rails.logger.debug "GraphQL Result: #{result.to_h}"
+
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
@@ -24,12 +26,19 @@ class GraphqlController < ApplicationController
 
   private
 
+  def set_cors_headers
+    headers['Access-Control-Allow-Origin'] = 'http://localhost:3002'
+    headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = '*'
+    headers['Access-Control-Allow-Credentials'] = 'true'
+  end
+
   # Handle variables in form data, JSON body, or a blank value
   def prepare_variables(variables_param)
     case variables_param
     when String
       if variables_param.present?
-        JSON.parse(variables_param) || {}
+        JSON.parse(variables_param) rescue nil
       else
         {}
       end
