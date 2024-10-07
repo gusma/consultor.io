@@ -66,5 +66,13 @@ module Types
     def patients_by_last_name_letter(letter:, limit:, offset:)
       Patient.where("last_name LIKE ?", "#{letter}%").offset(offset).limit(limit)
     end
+
+    field :biography, Types::BiographyType, null: true do
+      argument :patient_id, ID, required: true
+    end
+
+    def biography(patient_id:)
+      Patient.find(patient_id).biography
+    end
   end
 end

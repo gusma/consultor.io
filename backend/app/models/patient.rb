@@ -5,4 +5,5 @@ class Patient < ApplicationRecord
     validates :phone, presence: true
     validates :address, presence: true
     validates :email, presence: true
+    has_one :biography, dependent: :destroy
 end

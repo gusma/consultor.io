@@ -42,6 +42,20 @@ const CREATE_PATIENT = `
     }
 `;
 
+const CREATE_BIOGRAPHY = `
+  mutation CreateBiography($input: CreateBiographyInput!) {
+    createBiography(input: $input) {
+      biography {
+        id
+        patient_id
+        content
+      }
+      errors
+    }
+  }
+`;
+
+
 interface PatientFormProps {
   onPatientAdded: () => void;
 }
@@ -60,6 +74,9 @@ const PatientForm: React.FC<PatientFormProps> = ({ onPatientAdded }) => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [biography, setBiography] = useState<string>("");
+  const [bioLoading, setBioLoading] = useState(false);
+  const [bioError, setBioError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
