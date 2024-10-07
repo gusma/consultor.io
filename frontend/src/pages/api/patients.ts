@@ -1,14 +1,21 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const apiRes = await fetch('http://localhost:3000/api/v1/patients', {
-    headers: {
-      // Add any necessary headers here
-    },
-  })
-  const data = await apiRes.json()
-  res.status(200).json(data)
+  try {
+    const apiRes = await fetch('http://localhost:3001/api/v1/patients');
+
+    if (!apiRes.ok) {
+      throw new Error(`Error: ${apiRes.status} ${apiRes.statusText}`);
+    }
+
+    const data = await apiRes.json();
+    res.status(200).json(data);
+    console.log('Endpoint /api/v1/patients called');
+  } catch (error) {
+    console.error("Error fetching patients:", error);
+    res.status(500).json({ error: 'Failed to load patients' });
+  }
 }
